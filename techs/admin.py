@@ -40,13 +40,13 @@ class CustomPhoneAdmin(admin.ModelAdmin):
 class CustomTestResultLockedAdmin(admin.ModelAdmin):
     form = TestResultLockedForm
     autocomplete_fields = ['phone']
-    search_fields = ['phone_fullname', 'phone_imei']
+    search_fields = ['phone__name', 'phone__imei']
 
 
 @admin.register(TestResultUnlocked)
 class CustomTestResultUnlockedAdmin(admin.ModelAdmin):
     form = TestResultUnlockedForm
     autocomplete_fields = ['phone']
-    search_fields = ['phone_fullname', 'phone_imei']
+    search_fields = ['phone__name', 'phone__imei']
     readonly_fields = ['profitless']
 

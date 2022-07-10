@@ -6,7 +6,6 @@ from .models import (
     Model,
     Color,
     Storage,
-    PurchasePrice,
     LockedPartsWorth,
     UnlockedPartsCost,
     PhoneSpec,
@@ -32,11 +31,6 @@ class ColorForm(ModelForm):
 class StorageForm(ModelForm):
     class Meta:
         model = Storage
-        fields = "__all__"
-
-class PurchasePriceForm(ModelForm):
-    class Meta:
-        model = PurchasePrice
         fields = "__all__"
 
 class LockedPartsWorthPriceForm(ModelForm):

@@ -25,9 +25,18 @@ class Phone(models.Model):
     )
     phonespec = models.ForeignKey(PhoneSpec, related_name='phones', on_delete=models.PROTECT)
     imei = models.CharField(max_length=60, unique=True)
-    is_locked = models.BooleanField()
+
+    LOCK_STATUS = [
+        ("PE", "Pending"),
+        ("LO", "Locked"),
+        ("UN", "Unlock"),
+    ]
+
+
+    is_locked = models.CharField(max_length=2, choices=LOCK_STATUS, default="PE")
     grade = models.ForeignKey(Grade, on_delete=models.PROTECT, null=True, blank=True)
     name = models.CharField(max_length=60, null=True, blank=True)
+
     purchase_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     last_modified = models.DateTimeField(auto_now=True)
         
@@ -44,15 +53,9 @@ class Phone(models.Model):
     add_by = models.ForeignKey(settings.AUTH_USER_MODEL,  on_delete=models.SET_NULL, related_name='add_by', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
-    def get_purchase_price(self):
-        return self.phonespec.purchase_price.purchase_price
-
     def clean(self):
         if not self.purchase_price:
-            try:
-                self.purchase_price = self.get_purchase_price()
-            except ObjectDoesNotExist:
-                raise ValidationError("Please add purchase price for this model first")
+            raise ValidationError("Please add purchase price for this model first")
 
     def save(self, *args, **kwargs):
         if not self.name:
@@ -191,7 +194,7 @@ class TestResultUnlocked(models.Model):
 
     def cal_profit(self):
         try:
-            purchase_price = self.phone.phonespec.purchase_price.purchase_price
+            purchase_price = self.phone.purchase_price
         except ObjectDoesNotExist:
             raise ValidationError("Purchase price not available. Please add it first")
         

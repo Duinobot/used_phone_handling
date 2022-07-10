@@ -4,7 +4,6 @@ from .models import (
     Model,
     Color,
     Storage,
-    PurchasePrice,
     LockedPartsWorth,
     UnlockedPartsCost,
     PhoneSpec,
@@ -16,7 +15,6 @@ from .forms import (
     ModelsForm,
     ColorForm,
     StorageForm,
-    PurchasePriceForm,
     LockedPartsWorthPriceForm,
     UnlockedPartsCostForm,
     PhoneSpecForm,
@@ -43,12 +41,6 @@ class CustomColorAdmin(admin.ModelAdmin):
 @admin.register(Storage)
 class CustomStorageAdmin(admin.ModelAdmin):
     form = StorageForm
-
-
-@admin.register(PurchasePrice)
-class CustomPurchasePriceAdmin(admin.ModelAdmin):
-    form = PurchasePriceForm
-
 
 @admin.register(LockedPartsWorth)
 class CustomLockedPartsWorthAdmin(admin.ModelAdmin):

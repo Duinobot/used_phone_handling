@@ -102,40 +102,6 @@ class Storage(models.Model):
         ]
         verbose_name = "4. Phone Storage"
 
-
-class PurchasePrice(models.Model):
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False
-    )
-    purchase_price = models.DecimalField(max_digits=6, decimal_places=2)
-    storage = models.ForeignKey(
-        Storage,
-        related_name='purchase_prices',
-        on_delete=models.RESTRICT
-    )
-    model = models.ForeignKey(
-        Model,
-        related_name='purchase_prices',
-        on_delete=models.CASCADE
-    )
-    date_created = models.DateTimeField(auto_now_add=True)
-    last_modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return str(self.model) + " " + str(self.storage.storage) + " (purchase price: $" + str(self.purchase_price) + ")"
-    
-    def get_absolute_url(self):
-        return reverse('purchase_price_detail', arg=[str(self.id)])
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['model', 'storage'], name='unique_price_give_model_and_storage')
-        ]
-        verbose_name = "5. Purchase Price"
-
-
 class LockedPartsWorth(models.Model):
     id = models.UUIDField(
         primary_key=True,
@@ -204,21 +170,10 @@ class PhoneSpec(models.Model):
         related_name='phonespec',
         on_delete=models.PROTECT
     )
-    purchase_price = models.ForeignKey(PurchasePrice, related_name='phonespec', on_delete=models.SET_NULL, null=True, blank=True)
     storage = models.ForeignKey(Storage, related_name='phonespec', on_delete=models.PROTECT)
     color = models.ForeignKey(Color, related_name='phonespec', on_delete=models.PROTECT)
     listing_id = models.IntegerField(null=True, blank=True)
     sku = models.IntegerField(null=True, blank=True)
-
-    def lookup_purchase_price(self):
-        return PurchasePrice.objects.get(model=self.model, storage=self.storage)
-
-    def clean(self):
-        if not self.purchase_price:
-            try:
-                self.purchase_price = self.lookup_purchase_price()
-            except ObjectDoesNotExist:
-                raise ValidationError("Purchase price for model doesn't exsit, please add it first.")
 
     def save(self, *args, **kwargs):            
         if not self.fullname:
@@ -234,7 +189,7 @@ class PhoneSpec(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['model', 'storage', 'color', 'purchase_price'], name='unique_phonespec_detail')
+            models.UniqueConstraint(fields=['model', 'storage', 'color'], name='unique_phonespec_detail')
         ]
 
         verbose_name = "0. Phone Specification"
