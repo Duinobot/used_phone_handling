@@ -3,7 +3,6 @@ from .models import (
     Brand,
     Model,
     Color,
-    Storage,
     LockedPartsWorth,
     UnlockedPartsCost,
     PhoneSpec,
@@ -14,7 +13,6 @@ from .forms import (
     BrandForm,
     ModelsForm,
     ColorForm,
-    StorageForm,
     LockedPartsWorthPriceForm,
     UnlockedPartsCostForm,
     PhoneSpecForm,
@@ -37,11 +35,6 @@ class CustomModelsAdmin(admin.ModelAdmin):
 class CustomColorAdmin(admin.ModelAdmin):
     form = ColorForm
 
-
-@admin.register(Storage)
-class CustomStorageAdmin(admin.ModelAdmin):
-    form = StorageForm
-
 @admin.register(LockedPartsWorth)
 class CustomLockedPartsWorthAdmin(admin.ModelAdmin):
     form = LockedPartsWorthPriceForm
@@ -56,7 +49,7 @@ class CustomUnlockedPartsCostAdmin(admin.ModelAdmin):
 class CustomPhoneSpecAdmin(admin.ModelAdmin):
     form = PhoneSpecForm
     readonly_fields = ["fullname",]
-    search_fields = ['model__model', 'storage__storage', 'color__color', 'sku', 'listing_id']
+    search_fields = ['model__model', 'storage', 'color__color', 'sku', 'listing_id']
     # search_fields = ['model__model', 'listing_id' , 'sku', 'listing_id']
 
 

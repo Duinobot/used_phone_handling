@@ -1,14 +1,12 @@
 from django.contrib import admin
 
 from .models import (
-    TestResultLocked,
-    TestResultUnlocked,
+    TestResult,
     Phone,
     PhoneComment,
 )
 from .forms import (
-    TestResultLockedForm,
-    TestResultUnlockedForm,
+    TestResultForm,
     PhoneForm,
     PhoneCommentForm
 )
@@ -36,17 +34,27 @@ class CustomPhoneAdmin(admin.ModelAdmin):
         print(get_data['add_by'])
         return get_data
 
-@admin.register(TestResultLocked)
-class CustomTestResultLockedAdmin(admin.ModelAdmin):
-    form = TestResultLockedForm
+
+
+@admin.register(TestResult)
+class CustomTestResultAdmin(admin.ModelAdmin):
+    form = TestResultForm
     autocomplete_fields = ['phone']
     search_fields = ['phone__name', 'phone__imei']
+    readonly_fields = ['has_profit']
 
+    def get_changeform_initial_data(self, request):
+        get_data = super(CustomTestResultAdmin, self).get_changeform_initial_data(request)
+        get_data['technician'] = request.user.pk
+        print(get_data['technician'])
+        print(self.obj)
+        return get_data
 
-@admin.register(TestResultUnlocked)
-class CustomTestResultUnlockedAdmin(admin.ModelAdmin):
-    form = TestResultUnlockedForm
-    autocomplete_fields = ['phone']
-    search_fields = ['phone__name', 'phone__imei']
-    readonly_fields = ['profitless']
-
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(self, request, obj=None, **kwargs)
+        # if obj is not None:
+        #     if obj.phone.is_locked == "LO":
+        #         self.exclude = ('label_cost', 'lcd', 'digitizer')
+        #     elif obj.phone.is_locked == "UN":
+        #         self.exclude = ('locked_labor_cost', 'locked_screen')
+        return form
