@@ -1,7 +1,8 @@
+from dataclasses import field, fields
 from django.forms import ModelForm
+from marshmallow import EXCLUDE
 from .models import (
-    TestResultLocked,
-    TestResultUnlocked,
+    TestResult,
     Phone,
     PhoneComment
 )
@@ -11,15 +12,39 @@ class PhoneForm(ModelForm):
         model = Phone
         fields = "__all__"
 
-class TestResultLockedForm(ModelForm):
+class Locked_TestResultForm(ModelForm):
     class Meta:
-        model = TestResultLocked
+        model = TestResult
         fields = "__all__"
-
-class TestResultUnlockedForm(ModelForm):
+        exclude = (
+            'label_cost',
+            'lcd',
+            'digitizer',
+            'rear_camera',
+            'front_camera',
+            'baseband',
+            'face_id',
+            'wifi_bluetooth',
+            'sound',
+            'charging_port',
+            'housing',
+            'unlock_price_table',
+            'total_repair_cost',
+        )
+                
+class Unlock_TestResultForm(ModelForm):
     class Meta:
-        model = TestResultUnlocked
-        fields = "__all__"
+        model = TestResult
+        # fields = "__all__"
+        exclude = (
+            'locked_labor_cost', 
+            'locked_screen', 
+            'locked_housing',
+            'locked_back_camera',
+            'locked_charging_port',
+            'locked_price_table',
+            'has_profit',
+            )
 
 class PhoneCommentForm(ModelForm):
     class Meta:
