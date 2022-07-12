@@ -6,9 +6,9 @@ from .models import (
     PhoneComment,
 )
 from .forms import (
-    TestResultForm,
+    Unlock_TestResultForm,
     PhoneForm,
-    PhoneCommentForm
+    Locked_TestResultForm
 )
 # Register your models here.
 
@@ -38,10 +38,10 @@ class CustomPhoneAdmin(admin.ModelAdmin):
 
 @admin.register(TestResult)
 class CustomTestResultAdmin(admin.ModelAdmin):
-    form = TestResultForm
+    # form = TestResultForm
     autocomplete_fields = ['phone']
     search_fields = ['phone__name', 'phone__imei']
-    readonly_fields = ['has_profit']
+    readonly_fields= ('has_profit',)
 
     def get_changeform_initial_data(self, request):
         get_data = super(CustomTestResultAdmin, self).get_changeform_initial_data(request)
@@ -51,10 +51,9 @@ class CustomTestResultAdmin(admin.ModelAdmin):
         return get_data
 
     def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(self, request, obj=None, **kwargs)
-        # if obj is not None:
-        #     if obj.phone.is_locked == "LO":
-        #         self.exclude = ('label_cost', 'lcd', 'digitizer')
-        #     elif obj.phone.is_locked == "UN":
-        #         self.exclude = ('locked_labor_cost', 'locked_screen')
-        return form
+        if obj.phone.is_locked == "LO":
+            return Locked_TestResultForm
+        elif obj.phone.is_locked == "UN":
+            return Unlock_TestResultForm
+    
+
