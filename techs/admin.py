@@ -1,3 +1,4 @@
+from ast import pattern
 from django.contrib import admin
 
 from .models import (
@@ -10,7 +11,18 @@ from .forms import (
     PhoneForm,
     Locked_TestResultForm
 )
-# Register your models here.
+
+from django import forms
+from django.urls import path, re_path
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+
+from .handle_csv_upload import handle_csv_upload
+
+# CSV Upload form for phones admin page
+class CSVUploadForm(forms.Form):
+    csv_file = forms.FileField(required=True, label="Please select a file")
+
 
 class CustomPhoneCommentAdmin(admin.TabularInline):
     model = PhoneComment
@@ -34,6 +46,26 @@ class CustomPhoneAdmin(admin.ModelAdmin):
         print(get_data['add_by'])
         return get_data
 
+    def changelist_view(self, *args, **kwargs):
+        view = super().changelist_view(*args, **kwargs)
+        view.context_data['submit_csv_form'] = CSVUploadForm
+        return view
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [re_path(r'^upload-csv/$', self.upload_csv, name='upload_csv'),]
+        return my_urls + urls
+    
+    def upload_csv(self, request):
+        if request.method == 'POST':
+            handle_csv_upload(request.FILES['csv_file'])
+            # if form.is_valid():
+            #     print("Got it"+form)
+            #     # process form
+            return HttpResponseRedirect('/techs/phone/')
+
+
+    
 
 
 @admin.register(TestResult)
