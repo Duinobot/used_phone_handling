@@ -1,4 +1,5 @@
 from dataclasses import field, fields
+from statistics import mode
 from django.forms import ModelForm
 from marshmallow import EXCLUDE
 from .models import (
@@ -31,6 +32,11 @@ class Locked_TestResultForm(ModelForm):
             'unlock_price_table',
             'total_repair_cost',
         )
+
+class NewTestResultForm(ModelForm):
+    class Meta:
+        model = TestResult
+        fields = "__all__"
                 
 class Unlock_TestResultForm(ModelForm):
     class Meta:

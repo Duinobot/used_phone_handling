@@ -127,6 +127,7 @@ class PhoneSpec(models.Model):
         default=uuid.uuid4,
         editable=False
     )
+    description = models.CharField(max_length=50, null=True, blank=True)
     fullname = models.CharField(max_length=30, null=True, blank=True)
     model = models.ForeignKey(
         Model,
