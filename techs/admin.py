@@ -23,7 +23,13 @@ from .validators import import_csvfile_validator
 from django.core.validators import FileExtensionValidator
 # CSV Upload form for phones admin page
 class CSVUploadForm(forms.Form):
-    csvfile = forms.FileField(required=True, label="Select CSV file") #validators=[FileExtensionValidator(['csv'])])
+    csvfile = forms.FileField(
+        required=True,
+        label="Select CSV file",
+        validators=[
+        FileExtensionValidator(['csv','xlsx']), 
+        import_csvfile_validator,]
+        )
 
 class CustomPhoneCommentAdmin(admin.TabularInline):
     model = PhoneComment
@@ -59,9 +65,13 @@ class CustomPhoneAdmin(admin.ModelAdmin):
         my_urls = [path('upload-csv/', self.upload_csv, name='upload_csv'),]
         return my_urls + urls
     
-    def upload_csv(self, request):
+    def upload_csv(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            return render(request, reverse('admin:techs_phone_changelist'), {"form": CSVUploadForm()})
+
+
         if request.method == 'POST':
-            form = CSVUploadForm(request.POST['csvfile'])
+            form = CSVUploadForm(request.POST, request.FILES)
             if not form.is_valid():
                 print(form.errors)
                 return HttpResponse(form.errors.values())
