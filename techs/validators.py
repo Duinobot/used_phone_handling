@@ -1,11 +1,11 @@
 from csv import DictReader
-from io import TextIOWrapper
 import openpyxl
+import pandas as pd
 
 from django.core.exceptions import ValidationError
 
 # used to map csv headers to location fields
-HEADERS = {
+HEADERS = [
     'IMEI',
     'C SKU',
     'Manufacturer',
@@ -14,26 +14,20 @@ HEADERS = {
     'Price Inc',
     'Color',
     'Storage'
-}
+]
 
 def import_csvfile_validator(phones_file):
     print("entering validator")
     print(phones_file)
     if phones_file.name.split(".")[-1].lower() == 'csv':
-        table = DictReader(str(phones_file.read()))
-        print("table")
-        print(next(table))
-        print(next(table))
-        print(next(table))
-        print(next(table))
-        # file_header = list(map(str.strip, next(table).split(",")))
-        # print(file_header)
-        # for header in HEADERS:
-        #     try:
-        #         print(header)
-        #         file_header.index(header)
-        #     except:
-        #         raise ValidationError(u'Missing: %s' % (header) + "." + " Required: 'IMEI, C SKU, Manufacturer, Model, Description, Price Inc, Color, Storage'")
+        df = pd.read_csv(phones_file.open())
+        df = df.rename(columns=lambda x: x.strip())
+        file_header = str(df.columns.values)
+        for header in HEADERS:
+            try:
+                header in file_header
+            except:
+                raise ValidationError(u'Missing: %s' % (header) + "." + " Required: 'IMEI, C SKU, Manufacturer, Model, Description, Price Inc, Color, Storage'")
 
     if phones_file.name.split(".")[-1].lower() == 'xlsx':
         print(phones_file.name.split(".")[-1].lower())
