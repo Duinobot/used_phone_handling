@@ -20,13 +20,20 @@ def import_csvfile_validator(phones_file):
     print("entering validator")
     print(phones_file)
     if phones_file.name.split(".")[-1].lower() == 'csv':
-        rows = TextIOWrapper(phones_file, encoding="utf-8", newline="")
-        file_header = list(map(str.strip, rows.readline().split(",")))
-        for header in HEADERS:
-            try:
-                file_header.index(header)
-            except:
-                raise ValidationError(u'Missing: %s' % (header) + "." + " Required: 'IMEI, C SKU, Manufacturer, Model, Description, Price Inc, Color, Storage'")
+        table = DictReader(str(phones_file.read()))
+        print("table")
+        print(next(table))
+        print(next(table))
+        print(next(table))
+        print(next(table))
+        # file_header = list(map(str.strip, next(table).split(",")))
+        # print(file_header)
+        # for header in HEADERS:
+        #     try:
+        #         print(header)
+        #         file_header.index(header)
+        #     except:
+        #         raise ValidationError(u'Missing: %s' % (header) + "." + " Required: 'IMEI, C SKU, Manufacturer, Model, Description, Price Inc, Color, Storage'")
 
     if phones_file.name.split(".")[-1].lower() == 'xlsx':
         print(phones_file.name.split(".")[-1].lower())
