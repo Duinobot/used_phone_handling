@@ -67,11 +67,11 @@ class Phone(models.Model):
 
     def __str__(self):
         if self.is_locked == "LO":
-            return str(self.name) + " (" + self.imei + ")" + " (Locked)"
+            return str(self.name) + " (" + str(self.imei) + ")" + " (Locked)"
         elif self.is_locked == "UN":
-            return str(self.name) + " (" + self.imei + ")" + " (Unlock)"
+            return str(self.name) + " (" + str(self.imei) + ")" + " (Unlock)"
         else:
-            return str(self.name) + " (" + self.imei + ")" + " (Pending)"
+            return str(self.name) + " (" + str(self.imei) + ")" + " (Pending)"
 
 
     def get_absolute_url(self):
