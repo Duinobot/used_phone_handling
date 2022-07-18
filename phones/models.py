@@ -2,7 +2,7 @@ from django.conf import settings
 import uuid
 from django.db import models
 from django.urls import reverse
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+
 
 # Refer to model diagram https://drive.google.com/file/d/1LH1cB47npNIQdXnyk0o0fInNFF3cTHk8/view?usp=sharing
 
