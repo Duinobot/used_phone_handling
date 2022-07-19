@@ -21,7 +21,7 @@ def handle_csv_upload(phones_file):
 
     df = df.rename(columns=lambda x: x.strip())
     df['Price Inc'] = df['Price Inc'].apply(lambda price: float(price.strip('$ ').replace(',','')))
-
+    df['Price Ex'] = df['Price Inc'].apply(lambda x:x / 1.1)
     # Check and add new Model.
     # 1 get unique model value
     uploaded_models = df["Model"].unique()
@@ -65,7 +65,7 @@ def handle_csv_upload(phones_file):
             phone, created = Phone.objects.update_or_create(
                 phonespec=dj_phonespec,
                 imei=row['IMEI'],
-                purchase_price=row['Price Inc'],
+                purchase_price=row['Price Ex'],
                 vendor_sku=row['C SKU'],
                 )
             print(phone)

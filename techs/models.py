@@ -30,6 +30,7 @@ class Phone(models.Model):
         ("PE", "Pending"),
         ("LO", "Locked"),
         ("UN", "Unlock"),
+        ("FA", "Failed"),
     ]
 
     is_locked = models.CharField(max_length=2, choices=LOCK_STATUS, default="PE")
@@ -86,21 +87,21 @@ class TestResult(models.Model):
         default=uuid.uuid4,
         editable=False
     )
-    phone = models.OneToOneField(Phone, on_delete=models.CASCADE, related_name="test_form")
+    phone = models.OneToOneField(Phone, on_delete=models.CASCADE, related_name="test_form", unique=True)
     is_tested = models.BooleanField(verbose_name="Is phone tested?")
 
     # If Unlock:
     label_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0)
-    lcd = models.BooleanField(verbose_name="LCD Faulty")
-    digitizer = models.BooleanField(verbose_name="Digitizer Faulty")
-    rear_camera = models.BooleanField(verbose_name="Rear Camera Faulty")
-    front_camera = models.BooleanField(verbose_name="Front Camera Faulty")
-    baseband = models.BooleanField(verbose_name="Baseband Issue")
-    face_id = models.BooleanField(verbose_name="Face ID Issue")
-    wifi_bluetooth = models.BooleanField(verbose_name="Wifi/Bluetooth Issue")
-    sound = models.BooleanField(verbose_name="Audio Issue")
-    charging_port = models.BooleanField(verbose_name="Charging Port Faulty")
-    housing = models.BooleanField(verbose_name="Back Cover Broken")
+    lcd = models.BooleanField(verbose_name="LCD Faulty", default=0)
+    digitizer = models.BooleanField(verbose_name="Digitizer Faulty", default=0)
+    rear_camera = models.BooleanField(verbose_name="Rear Camera Faulty", default=0)
+    front_camera = models.BooleanField(verbose_name="Front Camera Faulty", default=0)
+    baseband = models.BooleanField(verbose_name="Baseband Issue", default=0)
+    face_id = models.BooleanField(verbose_name="Face ID Issue", default=0)
+    wifi_bluetooth = models.BooleanField(verbose_name="Wifi/Bluetooth Issue", default=0)
+    sound = models.BooleanField(verbose_name="Audio Issue", default=0)
+    charging_port = models.BooleanField(verbose_name="Charging Port Faulty", default=0)
+    housing = models.BooleanField(verbose_name="Back Cover Broken", default=0)
 
     unlock_price_table = models.ForeignKey(UnlockedPartsCost, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Part Price (Autofilled)")
     total_repair_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
@@ -109,10 +110,10 @@ class TestResult(models.Model):
 
     # If Locked:
     locked_labor_cost = models.DecimalField(max_digits=6, decimal_places=2, default=15)
-    locked_screen = models.BooleanField(verbose_name="Screen OK")
-    locked_housing = models.BooleanField(verbose_name="Housing OK")
-    locked_back_camera = models.BooleanField(verbose_name="Back Camera OK")
-    locked_charging_port = models.BooleanField(verbose_name="Charging Port OK")
+    locked_screen = models.BooleanField(verbose_name="Screen OK", default=0)
+    locked_housing = models.BooleanField(verbose_name="Housing OK", default=0)
+    locked_back_camera = models.BooleanField(verbose_name="Back Camera OK", default=0)
+    locked_charging_port = models.BooleanField(verbose_name="Charging Port OK", default=0)
 
     locked_price_table = models.ForeignKey(LockedPartsWorth, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Part Worth (Autofilled)")
 
