@@ -65,7 +65,7 @@ class UnlockPartsCostInline(admin.StackedInline):
 @admin.register(Model)
 class CustomModelsAdmin(admin.ModelAdmin):
     form = ModelsForm
-    list_display = ('brand', '__str__')
+    list_display = ('__str__', 'brand')
     list_filter = ('brand', BuyPartPrice, RepairPartPrice)
     inlines = [LockedPartsWorthInline, UnlockPartsCostInline]
 
