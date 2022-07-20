@@ -14,8 +14,6 @@ from .forms import (
     BrandForm,
     ModelsForm,
     ColorForm,
-    LockedPartsWorthPriceForm,
-    UnlockedPartsCostForm,
     PhoneSpecForm,
     LocationForm,
     GradeForm,
@@ -58,33 +56,30 @@ class RepairPartPrice(admin.SimpleListFilter):
         if self.value() == 'no_price':
             return queryset.filter(parts_cost__isnull=True)
 
+class LockedPartsWorthInline(admin.StackedInline):
+    model = LockedPartsWorth
+
+class UnlockPartsCostInline(admin.StackedInline):
+    model = UnlockedPartsCost
+
 @admin.register(Model)
 class CustomModelsAdmin(admin.ModelAdmin):
     form = ModelsForm
-    list_display = ('brand', '__str__')
+    list_display = ('__str__', 'brand')
     list_filter = ('brand', BuyPartPrice, RepairPartPrice)
+    inlines = [LockedPartsWorthInline, UnlockPartsCostInline]
 
 
 @admin.register(Color)
 class CustomColorAdmin(admin.ModelAdmin):
     form = ColorForm
 
-@admin.register(LockedPartsWorth)
-class CustomLockedPartsWorthAdmin(admin.ModelAdmin):
-    form = LockedPartsWorthPriceForm
-
-
-@admin.register(UnlockedPartsCost)
-class CustomUnlockedPartsCostAdmin(admin.ModelAdmin):
-    form = UnlockedPartsCostForm
-
-
 @admin.register(PhoneSpec)
 class CustomPhoneSpecAdmin(admin.ModelAdmin):
     form = PhoneSpecForm
     readonly_fields = ["fullname",]
     search_fields = ['model__model', 'storage', 'color__color', 'sku', 'listing_id']
-    # search_fields = ['model__model', 'listing_id' , 'sku', 'listing_id']
+    list_filter = ('model__brand','storage')
 
 
 @admin.register(Location)
