@@ -77,6 +77,8 @@ class CustomPhoneAdmin(admin.ModelAdmin):
     inlines = [
         CustomPhoneCommentAdmin,
     ]
+    list_display = ('__str__','brand', 'is_locked', 'certificate')
+    list_filter = ('phonespec__model__brand', 'is_locked', 'is_ready_for_sales')
 
     def get_changeform_initial_data(self, request):
         get_data = super(CustomPhoneAdmin, self).get_changeform_initial_data(request)
@@ -111,6 +113,8 @@ class CustomTestResultAdmin(admin.ModelAdmin):
     autocomplete_fields = ['phone']
     search_fields = ['phone__name', 'phone__imei']
     readonly_fields= ('has_profit',)
+    list_display = ('__str__', 'is_tested', 'has_profit')
+    list_filter = ('is_tested', 'has_profit')
 
     def get_changeform_initial_data(self, request):
         get_data = super(CustomTestResultAdmin, self).get_changeform_initial_data(request)
