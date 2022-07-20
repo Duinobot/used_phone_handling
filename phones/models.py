@@ -20,7 +20,7 @@ class Brand(models.Model):
         return reverse('brand_detail', args=[str(self.id)])
 
     class Meta:
-        verbose_name = "1. Brand"
+        verbose_name = "2. Brand"
 
 
 class Model(models.Model):
@@ -47,7 +47,7 @@ class Model(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['model', 'brand'], name="unique_model_brand")
         ]
-        verbose_name = "2. Phone Model"
+        verbose_name = "0. Model and Part Price"
 
 
 class Color(models.Model):
@@ -60,7 +60,7 @@ class Color(models.Model):
         return reverse('model_detail', args=[str(self.id)])
 
     class Meta:
-        verbose_name = "3. Phone Color"
+        verbose_name = "3. Color"
 
 
 class LockedPartsWorth(models.Model):
@@ -85,7 +85,7 @@ class LockedPartsWorth(models.Model):
         return reverse('lockedpartsworth_detail', arg=[str(self.id)])
     
     class Meta:
-        verbose_name = "6. [Locked] Parts Value"
+        verbose_name = "[Locked] Parts Value"
 
 
 class UnlockedPartsCost(models.Model):
@@ -116,7 +116,7 @@ class UnlockedPartsCost(models.Model):
         return reverse('unlockedpartscost_detail', arg=[str(self.id)])
 
     class Meta:
-        verbose_name = "7. [Unlocked] Parts Cost"
+        verbose_name = "[Unlocked] Parts Cost"
 
 
 class PhoneSpec(models.Model):
@@ -164,7 +164,7 @@ class PhoneSpec(models.Model):
             models.UniqueConstraint(fields=['model', 'storage', 'color'], name='unique_phonespec_detail')
         ]
 
-        verbose_name = "0. Phone Specification"
+        verbose_name = "1. Phone Specs"
 
 
 class Location(models.Model):
@@ -177,7 +177,7 @@ class Location(models.Model):
         return reverse('location_detail', arg=[str(self.id)])
 
     class Meta:
-        verbose_name = "9. Phone Location"
+        verbose_name = "5. Location"
 
 class Grade(models.Model):
     grade = models.CharField(max_length=1)
@@ -189,7 +189,7 @@ class Grade(models.Model):
         return reverse('grade_detail', arg=[str(self.id)])
 
     class Meta:
-        verbose_name = "8. Phone Grade"
+        verbose_name = "4. Grades"
 
 
 

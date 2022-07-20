@@ -4,8 +4,6 @@ from .models import (
     Grade,
     Model,
     Color,
-    LockedPartsWorth,
-    UnlockedPartsCost,
     PhoneSpec,
     Location,
     Grade,
@@ -24,16 +22,6 @@ class ModelsForm(ModelForm):
 class ColorForm(ModelForm):
     class Meta:
         model = Color
-        fields = "__all__"
-
-class LockedPartsWorthPriceForm(ModelForm):
-    class Meta:
-        model = LockedPartsWorth
-        fields = "__all__"
-
-class UnlockedPartsCostForm(ModelForm):
-    class Meta:
-        model = UnlockedPartsCost
         fields = "__all__"
 
 class PhoneSpecForm(ModelForm):
