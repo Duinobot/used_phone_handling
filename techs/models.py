@@ -43,7 +43,7 @@ class Phone(models.Model):
     final_cost = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     fixed_by = models.ForeignKey(settings.AUTH_USER_MODEL,  on_delete=models.SET_NULL, related_name='repairs', null=True, blank=True)
 
-    vendor_sku = models.IntegerField(null=True, blank=True)
+    vendor_sku = models.CharField(null=True, blank=True)
     location = models.ForeignKey(Location, related_name='phones', on_delete=models.PROTECT, null=True, blank=True, default=1)
     certificate = models.FileField(upload_to='certificates', blank=True)
     sell_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
