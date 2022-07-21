@@ -23,6 +23,7 @@ def handle_csv_upload(phones_file):
     df = df.rename(columns=lambda x: x.strip())
     df['Price Inc'] = df['Price Inc'].apply(lambda price: float(price.strip('$ ').replace(',','')))
     df['Price Ex'] = df['Price Inc'].apply(lambda x: float("{:.2f}".format(x/1.1)))
+    df['IMEI'] = df['IMEI'].apply(str)
     # Check and add new Model.
     # 1 get unique model value
     uploaded_models = df["Model"].unique()
