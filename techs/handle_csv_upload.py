@@ -21,7 +21,7 @@ def handle_csv_upload(phones_file):
         df = pd.read_excel(phones_file)
 
     df = df.rename(columns=lambda x: x.strip())
-    df = df.apply(lambda x: x.strip())
+    df['Color'] = df['Color'].apply(lambda x: x.strip().title())
     df['Price Inc'] = df['Price Inc'].apply(lambda price: price if type(price)==float else float(price.strip('$ ').replace(',','')))
     df['Price Ex'] = df['Price Inc'].apply(lambda x: float("{:.2f}".format(x/1.1)))
     df['IMEI'] = df['IMEI'].apply(str)
