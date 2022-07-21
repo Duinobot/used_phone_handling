@@ -30,7 +30,7 @@ class Model(models.Model):
         editable=False
     )
 
-    model = models.CharField(max_length=50, unique=True)
+    model = models.CharField(max_length=100, unique=True)
     brand = models.ForeignKey(
         Brand,
         related_name="models",
@@ -126,7 +126,7 @@ class PhoneSpec(models.Model):
         editable=False
     )
     description = models.CharField(max_length=50, null=True, blank=True)
-    fullname = models.CharField(max_length=30, null=True, blank=True)
+    fullname = models.CharField(max_length=100, null=True, blank=True)
     model = models.ForeignKey(
         Model,
         related_name='phonespec',
@@ -142,7 +142,7 @@ class PhoneSpec(models.Model):
         ('512GB', '512GB'),
         ('1TB', '1TB'),
     ]
-    storage = models.CharField(max_length=5, choices=MemorySize, default='64GB')
+    storage = models.CharField(max_length=10, choices=MemorySize, default='64GB')
     color = models.ForeignKey(Color, related_name='phonespec', on_delete=models.PROTECT)
     listing_id = models.IntegerField(null=True, blank=True)
     sku = models.IntegerField(null=True, blank=True)
@@ -168,7 +168,7 @@ class PhoneSpec(models.Model):
 
 
 class Location(models.Model):
-    location = models.CharField(max_length=10)
+    location = models.CharField(max_length=20)
 
     def __str__(self):
         return self.location
