@@ -37,6 +37,6 @@ def import_csvfile_validator(phones_file):
             try:
                 file_header.index(header)
             except:
-                raise ValidationError(u'Missing: %s' % (header) + "." + " Required: 'IMEI, C SKU, Manufacturer, Model, Description, Price Inc, Color, Storage'")
+                raise ValidationError(u'Missing: %s' % (header) + "." + " Required: 'IMEI, C SKU, Manufacturer, Model, Description, Price Inc, Color'")
 
     return True
