@@ -67,5 +67,8 @@ def handle_csv_upload(phones_file):
                 phonespec=dj_phonespec,
                 imei=row['IMEI'],
                 )
+            print(phone.imei)
+            print(row['Price Ex'])
+            print(row['C SKU'])
             Phone.objects.filter(imei=phone.imei).update(
                 purchase_price=row['Price Ex'],vendor_sku=row['C SKU'],)
