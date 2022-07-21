@@ -12,7 +12,6 @@ HEADERS = [
     'Description',
     'Price Inc',
     'Color',
-    'Storage'
 ]
 
 def import_csvfile_validator(phones_file):
@@ -26,7 +25,7 @@ def import_csvfile_validator(phones_file):
             try:
                 header in file_header
             except:
-                raise ValidationError(u'Missing: %s' % (header) + "." + " Required: 'IMEI, C SKU, Manufacturer, Model, Description, Price Inc, Color, Storage'")
+                raise ValidationError(u'Missing: %s' % (header) + "." + " Required: 'IMEI, C SKU, Manufacturer, Model, Description, Price Inc, Color'")
 
     if phones_file.name.split(".")[-1].lower() == 'xlsx':
         print(phones_file.name.split(".")[-1].lower())
