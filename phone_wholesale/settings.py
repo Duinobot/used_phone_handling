@@ -26,7 +26,7 @@ env.read_env()
 SECRET_KEY = env.str("SECRET_KEY", default='django-insecure-o$w7uiti002)2h5lvpzq3ak6(vct(5r4n$&^g)@aio3@#5l6g-')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DEBUG", default=False)
+DEBUG = True # env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
 
