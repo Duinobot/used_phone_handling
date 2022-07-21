@@ -92,7 +92,7 @@ class TestResult(models.Model):
         editable=False
     )
     phone = models.OneToOneField(Phone, on_delete=models.CASCADE, related_name="test_form", unique=True)
-    is_tested = models.BooleanField(verbose_name="Already Tested")
+    is_tested = models.BooleanField(verbose_name="Already Tested", default=False)
 
     # If Unlock:
     label_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0)
