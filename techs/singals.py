@@ -14,9 +14,9 @@ def update_final_worth(sender, instance, update_fields, **kwargs):
     
 @receiver(post_save,sender=Phone)
 def update_unlock_status(sender, instance, **kwargs):
-    if instance.is_locked != "PE" or instance.is_locked != "FA":
-        test_form, created = TestResult.objects.get_or_create(phone=instance, is_tested=False)
-
+    if not (instance.is_locked == "PE" or instance.is_locked == "FA"):
+        test_form, created = TestResult.objects.get_or_create(phone=instance)
+        
 
     # # If Unlock and has profit
     # if instance.phone.is_locked == "UN" and instance.profitless == False:
