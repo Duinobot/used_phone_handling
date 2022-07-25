@@ -52,7 +52,7 @@ def check_if_locked(modeladmin, request, queryset):
         r = requests.get(url = URL, params = PARAMS)
         data = r.json()
         if data['flag'] == 'ok':
-            if 'Off' in data['result']:
+            if 'OFF' in data['result']:
                 print('Unlock')
                 phone.is_locked='UN'
                 phone.save()
