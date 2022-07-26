@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'phones.apps.PhonesConfig',
     'users.apps.UsersConfig',
     'warehouse.apps.WarehouseConfig',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +79,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'phone_wholesale.wsgi.application'
 
+# CELERY CONFIG
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_BROKER_URL = 'redis://localhost:6379'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -86,6 +91,15 @@ DATABASES = {
     'default': env.dj_db_url("DATABASE_URL")
 }
 
+
+
+# Redis Setup
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': env.dj_cache_url('REDIS_URL'),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -111,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Australia/Melbourne'
 
 USE_I18N = True
 
