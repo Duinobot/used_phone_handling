@@ -1,5 +1,6 @@
+from .tasks import gsx_api_update
 from django.contrib import admin
-import requests
+
 from .models import (
     TestResult,
     Phone,
@@ -45,25 +46,11 @@ def check_if_locked(modeladmin, request, queryset):
     service_id = 2019
     
     for phone in queryset:
+        phone_id = phone.id
+        PARAMS = {'user': user, 'key': key, 'id': service_id, 'imei': phone.imei}
         # check lock status and update website
-        imei = phone.imei
-        print(imei)
-        PARAMS = {'user': user, 'key': key, 'id': service_id, 'imei': imei}
-        r = requests.get(url = URL, params = PARAMS)
-        data = r.json()
-        if data['flag'] == 'ok':
-            if 'Off' in data['result']:
-                print('Unlock')
-                phone.is_locked='UN'
-                phone.save()
-            else:
-                print('locked')
-                phone.is_locked='LO'
-                phone.save()
-        elif data['flag'] == 'fail':
-            print('failed')
-            phone.is_locked='FA'
-            phone.save()
+        gsx_api_update.delay(phone_id, PARAMS, URL)
+
 
 @admin.register(Phone)
 class CustomPhoneAdmin(admin.ModelAdmin):

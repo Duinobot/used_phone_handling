@@ -83,6 +83,7 @@ WSGI_APPLICATION = 'phone_wholesale.wsgi.application'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_TASK_SERIALIZER = "json"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
